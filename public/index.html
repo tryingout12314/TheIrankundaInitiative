@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Life AI Planner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="aurora aurora-one"></div>
+    <div class="aurora aurora-two"></div>
+
+    <main class="container">
+      <header class="hero card">
+        <p class="eyebrow">Smart Student Dashboard</p>
+        <h1>Student Life AI Planner</h1>
+        <p>
+          Connect your Google Calendar and get beautiful, actionable coaching across studying, sleep,
+          health, finances, social life, and productivity.
+        </p>
+
+        <div class="hero-actions">
+          <button id="connectGoogle" class="btn-primary">Connect Google Calendar</button>
+          <button id="loadEvents" class="btn-secondary">Load Today's Plan</button>
+        </div>
+        <p id="status" class="status">Ready when you are.</p>
+      </header>
+
+      <section class="grid-two">
+        <article class="card">
+          <h2>Main Goal</h2>
+          <textarea
+            id="goal"
+            placeholder="Example: Improve my grades while staying healthy and avoiding burnout."
+          ></textarea>
+        </article>
+
+        <article class="card">
+          <h2>Student Snapshot</h2>
+          <div class="stats-grid">
+            <label>Sleep (hours)
+              <input id="sleepHours" type="number" min="0" max="24" step="0.5" placeholder="7.5" />
+            </label>
+            <label>Study Focus (1-10)
+              <input id="studyFocus" type="number" min="1" max="10" placeholder="8" />
+            </label>
+            <label>Energy (1-10)
+              <input id="energyLevel" type="number" min="1" max="10" placeholder="7" />
+            </label>
+            <label>Stress (1-10)
+              <input id="stressLevel" type="number" min="1" max="10" placeholder="5" />
+            </label>
+            <label>Spent Today ($)
+              <input id="spentToday" type="number" min="0" step="0.01" placeholder="12.50" />
+            </label>
+            <label>Workout / Movement
+              <input id="workout" type="text" placeholder="Gym 45 min / Walk 6k steps" />
+            </label>
+          </div>
+        </article>
+      </section>
+
+      <section class="grid-two">
+        <article class="card">
+          <h2>Today's Calendar Timeline</h2>
+          <ul id="eventsList" class="timeline"></ul>
+        </article>
+
+        <article class="card">
+          <h2>Life Areas Check-in</h2>
+          <div class="checkins">
+            <label>Academics
+              <textarea id="academicsNotes" placeholder="Assignments, lectures, exam prep progress..."></textarea>
+            </label>
+            <label>Social / Relationships
+              <textarea id="socialNotes" placeholder="Friends/family time and quality..."></textarea>
+            </label>
+            <label>Mental Wellbeing
+              <textarea id="wellbeingNotes" placeholder="Mood, anxiety, confidence, reflections..."></textarea>
+            </label>
+          </div>
+        </article>
+      </section>
+
+      <section class="card">
+        <h2>Extra Notes</h2>
+        <textarea id="notes" placeholder="Wins, distractions, what worked, what didn't..."></textarea>
+      </section>
+
+      <section class="card action-card">
+        <button id="analyze" class="btn-primary">Analyze My Day with AI</button>
+      </section>
+
+      <section class="card">
+        <h2>AI Coaching Report</h2>
+        <pre id="analysis">No analysis yet.</pre>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
