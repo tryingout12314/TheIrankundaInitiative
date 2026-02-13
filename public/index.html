@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daily Routine AI Coach</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <header>
+        <h1>Daily Routine AI Coach</h1>
+        <p>Sync today’s Google Calendar, set a goal, and get AI-powered feedback to improve tomorrow.</p>
+      </header>
+
+      <section class="card actions">
+        <button id="connectGoogle">Connect Google Calendar</button>
+        <button id="loadEvents">Load Today's Events</button>
+        <p id="status"></p>
+      </section>
+
+      <section class="card">
+        <h2>Your Goal</h2>
+        <textarea id="goal" placeholder="Example: I want to stay focused and finish deep work before 2 PM."></textarea>
+      </section>
+
+      <section class="card">
+        <h2>Today’s Events</h2>
+        <ul id="eventsList"></ul>
+      </section>
+
+      <section class="card">
+        <h2>Extra Notes</h2>
+        <textarea id="notes" placeholder="How you felt, distractions, wins, blockers..."></textarea>
+      </section>
+
+      <section class="card actions">
+        <button id="analyze">Analyze My Day</button>
+      </section>
+
+      <section class="card">
+        <h2>AI Coaching</h2>
+        <pre id="analysis">No analysis yet.</pre>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
