@@ -1,3 +1,11 @@
+# Student Life AI Planner
+
+A visually polished student dashboard that:
+
+1. Connects to your Google Calendar.
+2. Loads your events for today.
+3. Captures key student-life metrics (sleep, energy, stress, academics, social, wellbeing, spending).
+4. Uses AI to analyze your day against your goal and suggest practical improvements for tomorrow.
 # Daily Routine AI Coach
 
 A lightweight website that:
