@@ -7,17 +7,6 @@ const analysis = document.getElementById('analysis');
 const goalInput = document.getElementById('goal');
 const notesInput = document.getElementById('notes');
 
-const sleepHoursInput = document.getElementById('sleepHours');
-const studyFocusInput = document.getElementById('studyFocus');
-const energyLevelInput = document.getElementById('energyLevel');
-const stressLevelInput = document.getElementById('stressLevel');
-const spentTodayInput = document.getElementById('spentToday');
-const workoutInput = document.getElementById('workout');
-
-const academicsNotesInput = document.getElementById('academicsNotes');
-const socialNotesInput = document.getElementById('socialNotes');
-const wellbeingNotesInput = document.getElementById('wellbeingNotes');
-
 let events = [];
 
 const setStatus = (message) => {
@@ -29,14 +18,14 @@ const renderEvents = () => {
 
   if (!events.length) {
     const li = document.createElement('li');
-    li.textContent = 'No events loaded yet. Connect calendar and click "Load Today\'s Plan".';
+    li.textContent = 'No events loaded.';
     eventsList.appendChild(li);
     return;
   }
 
   for (const event of events) {
     const li = document.createElement('li');
-    li.innerHTML = `<strong>${event.title}</strong><br><span>${event.start || 'unknown'} → ${event.end || 'unknown'}</span>`;
+    li.textContent = `${event.title} (${event.start || 'unknown'} → ${event.end || 'unknown'})`;
     eventsList.appendChild(li);
   }
 };
@@ -56,7 +45,7 @@ connectGoogleBtn.addEventListener('click', async () => {
 });
 
 loadEventsBtn.addEventListener('click', async () => {
-  setStatus('Loading today\'s schedule...');
+  setStatus('Loading today\'s events...');
 
   const response = await fetch('/api/calendar/today');
   const data = await response.json();
@@ -68,31 +57,19 @@ loadEventsBtn.addEventListener('click', async () => {
 
   events = data.events || [];
   renderEvents();
-  setStatus(`Loaded ${events.length} calendar event(s).`);
-});
-
-const buildStudentProfile = () => ({
-  sleepHours: sleepHoursInput.value,
-  studyFocus: studyFocusInput.value,
-  energyLevel: energyLevelInput.value,
-  stressLevel: stressLevelInput.value,
-  spentToday: spentTodayInput.value,
-  workout: workoutInput.value.trim(),
-  academicsNotes: academicsNotesInput.value.trim(),
-  socialNotes: socialNotesInput.value.trim(),
-  wellbeingNotes: wellbeingNotesInput.value.trim()
+  setStatus(`Loaded ${events.length} event(s).`);
 });
 
 analyzeBtn.addEventListener('click', async () => {
   const goal = goalInput.value.trim();
 
   if (!goal) {
-    setStatus('Add your main goal first.');
+    setStatus('Add your goal first.');
     return;
   }
 
-  setStatus('Asking AI for your student life coaching report...');
-  analysis.textContent = 'Generating your report...';
+  setStatus('Asking AI for coaching insight...');
+  analysis.textContent = 'Working on your analysis...';
 
   const response = await fetch('/api/analyze', {
     method: 'POST',
@@ -100,8 +77,7 @@ analyzeBtn.addEventListener('click', async () => {
     body: JSON.stringify({
       goal,
       events,
-      notes: notesInput.value.trim(),
-      studentProfile: buildStudentProfile()
+      notes: notesInput.value.trim()
     })
   });
 
@@ -114,11 +90,11 @@ analyzeBtn.addEventListener('click', async () => {
   }
 
   analysis.textContent = data.analysis;
-  setStatus('Report ready — review your strengths and tomorrow plan.');
+  setStatus('Analysis complete.');
 });
 
 if (window.location.search.includes('connected=google')) {
-  setStatus('Google Calendar connected! Now click "Load Today\'s Plan".');
+  setStatus('Google Calendar connected! Click "Load Today\'s Events".');
 }
 
 renderEvents();

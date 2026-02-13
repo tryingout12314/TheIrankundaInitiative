@@ -6,6 +6,14 @@ A visually polished student dashboard that:
 2. Loads your events for today.
 3. Captures key student-life metrics (sleep, energy, stress, academics, social, wellbeing, spending).
 4. Uses AI to analyze your day against your goal and suggest practical improvements for tomorrow.
+# Daily Routine AI Coach
+
+A lightweight website that:
+
+1. Connects to your Google Calendar.
+2. Loads your events for today.
+3. Uses AI to review your day against a goal you provide.
+4. Suggests practical improvements for tomorrow.
 
 ## Setup
 
@@ -33,14 +41,6 @@ npm run dev
 ```
 
 Then open `http://localhost:3000`.
-
-## Features
-
-- Glassmorphism + gradient UI focused on student use.
-- Calendar timeline for the current day.
-- Student snapshot inputs (sleep, focus, stress, energy, spending, workout).
-- Life area check-ins (academics, social, wellbeing).
-- AI coaching report that includes strengths, improvements, and next-day schedule suggestions.
 
 ## Important limitations
 

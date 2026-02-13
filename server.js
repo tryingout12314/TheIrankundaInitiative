@@ -127,7 +127,7 @@ app.get('/api/calendar/today', async (_req, res) => {
 });
 
 app.post('/api/analyze', async (req, res) => {
-  const { goal, events, notes, studentProfile } = req.body;
+  const { goal, events, notes } = req.body;
 
   if (!goal || typeof goal !== 'string') {
     return res.status(400).json({ error: 'Please include a goal string.' });
@@ -147,14 +147,12 @@ app.post('/api/analyze', async (req, res) => {
 User goal:\n${goal}\n
 Today's calendar entries:\n${formattedEvents || 'No events found.'}\n
 Additional notes from user:\n${notes || 'No notes.'}\n
-Student life check-in data:\n${JSON.stringify(studentProfile || {}, null, 2)}\n
 Give:
 1. A short daily assessment.
 2. 3 strengths from today.
 3. 3 improvement suggestions for tomorrow tied to the user's goal.
-4. Recommendations across academics, health, social life, and finances.
-5. A practical schedule tweak in bullet points for tomorrow.
-Use concise language and clear headings.`;
+4. A practical schedule tweak in bullet points.
+Use concise language.`;
 
   try {
     const completion = await openai.chat.completions.create({
