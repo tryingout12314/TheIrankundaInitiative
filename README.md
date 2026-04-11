@@ -1,19 +1,14 @@
-# Student Life AI Planner
+# Office Hours Hub
 
-A visually polished student dashboard that:
+A lightweight app for helping students connect with TFs, CAs, and other course support staff.
 
-1. Connects to your Google Calendar.
-2. Loads your events for today.
-3. Captures key student-life metrics (sleep, energy, stress, academics, social, wellbeing, spending).
-4. Uses AI to analyze your day against your goal and suggest practical improvements for tomorrow.
-# Daily Routine AI Coach
+## What this app does
 
-A lightweight website that:
-
-1. Connects to your Google Calendar.
-2. Loads your events for today.
-3. Uses AI to review your day against a goal you provide.
-4. Suggests practical improvements for tomorrow.
+1. Connects to Google Calendar to view today's events.
+2. Shows an office-hours directory with support roles and availability.
+3. Lets a student submit a meeting request (question topic + preferred time).
+4. Optionally exposes a Canvas course link for quick navigation.
+5. Generates AI-assisted guidance for how to prepare for office hours.
 
 ## Setup
 
@@ -22,7 +17,14 @@ npm install
 cp .env.example .env
 ```
 
-Fill in your Google OAuth credentials and OpenAI API key in `.env`.
+Configure these values in `.env`:
+
+- `GOOGLE_CLIENT_ID`
+- `GOOGLE_CLIENT_SECRET`
+- `GOOGLE_REDIRECT_URI`
+- `OPENAI_API_KEY` (optional)
+- `CANVAS_BASE_URL` (optional, for example `https://canvas.instructure.com`)
+- `CANVAS_COURSE_ID` (optional)
 
 ## Google OAuth notes
 
@@ -44,6 +46,6 @@ Then open `http://localhost:3000`.
 
 ## Important limitations
 
-- Tokens are stored in memory for demo simplicity. Restarting the server logs you out.
-- This app uses read-only calendar access.
-- AI analysis quality depends on your event detail and notes.
+- Tokens and meeting requests are stored in memory for demo simplicity.
+- This app uses read-only Google Calendar access.
+- Canvas integration in this starter is link-based (not full OAuth/LMS sync).

@@ -427,3 +427,19 @@ html[data-theme="light"] .analysis { background: rgba(255,255,255,0.65); }
   .hide-sm { display: none; }
   .hero h1 { font-size: 28px; }
 }
+
+input,
+select {
+  width: 100%;
+  margin-top: 10px;
+  padding: 11px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+}
+
+.form-grid {
+  display: grid;
+  gap: 10px;
+}
