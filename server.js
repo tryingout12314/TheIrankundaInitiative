@@ -23,7 +23,35 @@ const oauth2Client = new google.auth.OAuth2(
   process.env.GOOGLE_REDIRECT_URI
 );
 
+const officeHoursStaff = [
+  {
+    id: 'tf-1',
+    name: 'Jordan Lee',
+    role: 'TF',
+    focus: 'Algorithms, exam prep',
+    availability: 'Mon/Wed 2:00 PM - 4:00 PM',
+    mode: 'Zoom + in-person'
+  },
+  {
+    id: 'ca-1',
+    name: 'Maya Patel',
+    role: 'CA',
+    focus: 'Projects, debugging',
+    availability: 'Tue/Thu 11:00 AM - 1:00 PM',
+    mode: 'In-person lab'
+  },
+  {
+    id: 'peer-1',
+    name: 'Sam Rivera',
+    role: 'Peer Mentor',
+    focus: 'Study planning, onboarding',
+    availability: 'Fri 12:00 PM - 3:00 PM',
+    mode: 'Zoom'
+  }
+];
+
 let savedTokens = null;
+let meetingRequests = [];
 
 function hasGoogleConfig() {
   return missingGoogle.length === 0;
@@ -37,13 +65,80 @@ function getOpenAIClient() {
   return new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 }
 
+function getCanvasCourseUrl() {
+  const baseUrl = process.env.CANVAS_BASE_URL;
+  const courseId = process.env.CANVAS_COURSE_ID;
+
+  if (!baseUrl || !courseId) {
+    return null;
+  }
+
+  return `${baseUrl.replace(/\/$/, '')}/courses/${courseId}`;
+}
+
 app.get('/api/health', (_req, res) => {
   res.json({
     ok: true,
     googleConfigured: hasGoogleConfig(),
     googleMissing: missingGoogle,
     openAIConfigured: Boolean(process.env.OPENAI_API_KEY),
-    connectedToGoogle: Boolean(savedTokens)
+    connectedToGoogle: Boolean(savedTokens),
+    canvasConnected: Boolean(getCanvasCourseUrl())
+  });
+});
+
+app.get('/api/canvas/config', (_req, res) => {
+  const courseUrl = getCanvasCourseUrl();
+
+  return res.json({
+    connected: Boolean(courseUrl),
+    courseUrl
+  });
+});
+
+app.get('/api/office-hours', (_req, res) => {
+  res.json({ staff: officeHoursStaff });
+});
+
+app.get('/api/meetings', (_req, res) => {
+  res.json({ meetings: meetingRequests });
+});
+
+app.post('/api/meetings/request', (req, res) => {
+  const { studentName, studentEmail, supportPersonId, topic, preferredTime, details } = req.body;
+
+  if (!studentName || !studentEmail || !supportPersonId || !topic || !preferredTime) {
+    return res.status(400).json({
+      error: 'Please include studentName, studentEmail, supportPersonId, topic, and preferredTime.'
+    });
+  }
+
+  const supportPerson = officeHoursStaff.find((person) => person.id === supportPersonId);
+
+  if (!supportPerson) {
+    return res.status(404).json({ error: 'Selected support person was not found.' });
+  }
+
+  const requestRecord = {
+    id: `mtg-${Date.now()}`,
+    studentName,
+    studentEmail,
+    supportPersonId,
+    supportPersonName: supportPerson.name,
+    supportRole: supportPerson.role,
+    topic,
+    preferredTime,
+    details: details || '',
+    status: 'pending',
+    createdAt: new Date().toISOString(),
+    suggestedNextStep: `Check ${supportPerson.name}'s listed availability (${supportPerson.availability}) and send a calendar invite.`
+  };
+
+  meetingRequests = [requestRecord, ...meetingRequests].slice(0, 50);
+
+  return res.status(201).json({
+    message: 'Meeting request submitted.',
+    meeting: requestRecord
   });
 });
 
@@ -59,7 +154,7 @@ app.get('/api/auth/google', (req, res) => {
     access_type: 'offline',
     scope: ['https://www.googleapis.com/auth/calendar.readonly'],
     prompt: 'consent',
-    state: req.query.state || 'daily-routine-ai'
+    state: req.query.state || 'office-hours-hub'
   });
 
   return res.json({ authUrl });
@@ -142,16 +237,16 @@ app.post('/api/analyze', async (req, res) => {
     .map((event, index) => `${index + 1}. ${event.title} (${event.start || 'unknown'} - ${event.end || 'unknown'})`)
     .join('\n');
 
-  const prompt = `You are a productivity coach.
+  const prompt = `You are a student support coach.
 
-User goal:\n${goal}\n
+Student goal:\n${goal}\n
 Today's calendar entries:\n${formattedEvents || 'No events found.'}\n
-Additional notes from user:\n${notes || 'No notes.'}\n
+Student notes:\n${notes || 'No notes.'}\n
 Give:
-1. A short daily assessment.
-2. 3 strengths from today.
-3. 3 improvement suggestions for tomorrow tied to the user's goal.
-4. A practical schedule tweak in bullet points.
+1. A short readiness check for office hours.
+2. 3 focused questions the student should ask a TF/CA.
+3. 3 concrete next steps for the next 24 hours.
+4. A brief suggested meeting agenda.
 Use concise language.`;
 
   try {
@@ -169,5 +264,5 @@ Use concise language.`;
 });
 
 app.listen(port, () => {
-  console.log(`Daily Routine AI Coach is running at http://localhost:${port}`);
+  console.log(`Office Hours Hub is running at http://localhost:${port}`);
 });

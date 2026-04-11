@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Daily Routine Coach</title>
+    <title>Office Hours Hub</title>
 
     <link rel="stylesheet" href="styles.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -15,20 +15,18 @@
   </head>
 
   <body>
-    <!-- Ambient background -->
     <div class="bg">
       <div class="blob blob-a"></div>
       <div class="blob blob-b"></div>
       <div class="grid-overlay"></div>
     </div>
 
-    <!-- Top bar -->
     <header class="topbar">
       <div class="brand">
         <div class="logo"></div>
         <div class="brand-text">
-          <div class="brand-title">Daily Routine Coach</div>
-          <div class="brand-subtitle">Calendar • Goals • Coaching</div>
+          <div class="brand-title">Office Hours Hub</div>
+          <div class="brand-subtitle">TFs • CAs • Scheduling • Canvas</div>
         </div>
       </div>
 
@@ -37,16 +35,10 @@
           <span class="icon">🌙</span>
           <span class="hide-sm">Theme</span>
         </button>
-
-        <a class="btn primary hide-sm" href="#coach">
-          <span class="icon">✨</span>
-          Smart Analysis
-        </a>
       </div>
     </header>
 
     <main class="layout">
-      <!-- Sidebar -->
       <aside class="sidebar">
         <div class="sidebar-card">
           <div class="sidebar-title">Quick actions</div>
@@ -59,6 +51,14 @@
               <span class="icon">📅</span>
               Load today
             </button>
+            <button class="btn" id="loadOfficeHours" type="button">
+              <span class="icon">👩‍🏫</span>
+              Load office hours
+            </button>
+            <button class="btn" id="openCanvas" type="button">
+              <span class="icon">🎓</span>
+              Open Canvas
+            </button>
           </div>
 
           <div class="status" id="statusWrap">
@@ -66,251 +66,83 @@
             <p id="status">Ready.</p>
           </div>
         </div>
-
-        <div class="sidebar-card">
-          <div class="sidebar-title">Today score</div>
-          <div class="score">
-            <div class="ring" aria-hidden="true">
-              <div class="ring-inner">
-                <div class="score-num" id="scoreNum">—</div>
-                <div class="score-label">balance</div>
-              </div>
-            </div>
-
-            <div class="score-meta">
-              <div class="pill"><span class="dot dot-indigo"></span>Focus</div>
-              <div class="pill"><span class="dot dot-emerald"></span>Wellness</div>
-              <div class="pill"><span class="dot dot-amber"></span>Admin</div>
-            </div>
-          </div>
-
-          <div class="mini">
-            <div class="mini-item">
-              <div class="mini-k">Deep work</div>
-              <div class="mini-v" id="deepWorkMini">—</div>
-            </div>
-            <div class="mini-item">
-              <div class="mini-k">Meetings</div>
-              <div class="mini-v" id="meetingsMini">—</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="sidebar-card">
-          <div class="sidebar-title">Student life</div>
-          <div class="sidebar-links">
-            <a href="#goal" class="slink">📚 Academics</a>
-            <a href="#events" class="slink">🗓️ Routine</a>
-            <a href="#notes" class="slink">🧘 Wellness</a>
-            <a href="#coach" class="slink">🧠 Insights</a>
-          </div>
-        </div>
       </aside>
 
-      <!-- Main content -->
       <section class="content">
         <section class="hero">
           <div>
-            <h1>Make your days calmer — and more effective.</h1>
+            <h1>Ask better questions and get help faster.</h1>
             <p>
-              Sync today’s Google Calendar, set a goal, and get coaching you can actually follow.
-              If paid AI isn’t available, you’ll still get “Smart Analysis” based on your schedule patterns.
+              Office Hours Hub helps students connect with TFs, CAs, and peer mentors, submit meeting
+              requests, and keep context synced with their calendar.
             </p>
-          </div>
-
-          <div class="hero-card">
-            <div class="hero-card-title">Today’s intention</div>
-            <div class="hero-card-sub">Small wins beat perfect plans.</div>
-            <div class="hero-card-row">
-              <div class="chip">✨ Focus block</div>
-              <div class="chip">🌿 Breaks</div>
-              <div class="chip">🏃 Movement</div>
-            </div>
           </div>
         </section>
 
         <div class="grid">
-          <!-- Goal -->
-          <section class="card" id="goal">
+          <section class="card" id="questionCard">
             <div class="card-head">
-              <h2>Your goal</h2>
-              <div class="hint">Be specific. Time-bound helps.</div>
+              <h2>Your question goal</h2>
             </div>
-
             <textarea
               id="goal"
-              placeholder="Example: I want to stay focused and finish deep work before 2 PM."
+              placeholder="Example: I want help understanding recursion and debugging my assignment 3 tests."
             ></textarea>
-
-            <div class="card-foot">
-              <div class="muted">Tip: write one goal for focus + one for wellbeing.</div>
-              <button class="btn ghost" type="button" id="saveGoal">
-                <span class="icon">💾</span> Save
-              </button>
-            </div>
           </section>
 
-          <!-- Events -->
           <section class="card" id="events">
             <div class="card-head">
               <h2>Today’s events</h2>
-              <div class="hint">Loaded from Google Calendar.</div>
             </div>
-
             <ul id="eventsList" class="events"></ul>
-
-            <div class="empty" id="eventsEmpty">
-              <div class="empty-icon">🗓️</div>
-              <div class="empty-title">No events loaded yet</div>
-              <div class="empty-sub">Connect your calendar, then click “Load today”.</div>
-            </div>
           </section>
 
-          <!-- Notes -->
-          <section class="card" id="notes">
+          <section class="card" id="officeHoursCard">
             <div class="card-head">
-              <h2>Extra notes</h2>
-              <div class="hint">Mood, distractions, wins, blockers…</div>
+              <h2>Office hours directory</h2>
             </div>
-
-            <textarea
-              id="notes"
-              placeholder="Example: Felt distracted after lunch. Best focus from 9–11. Need more breaks."
-            ></textarea>
-
-            <div class="card-foot">
-              <div class="muted">These help your coaching improve.</div>
-              <button class="btn ghost" type="button" id="saveNotes">
-                <span class="icon">📝</span> Save
-              </button>
-            </div>
+            <ul id="officeHoursList" class="events"></ul>
           </section>
 
-          <!-- Coach -->
-          <section class="card wide" id="coach">
+          <section class="card wide" id="meetingCard">
             <div class="card-head">
-              <h2>Coaching</h2>
-              <div class="hint">AI if available — smart analysis otherwise.</div>
+              <h2>Schedule a meeting</h2>
             </div>
-
+            <div class="form-grid">
+              <input id="studentName" placeholder="Your name" />
+              <input id="studentEmail" placeholder="Your email" />
+              <select id="supportPerson"></select>
+              <input id="preferredTime" placeholder="Preferred time (e.g., Tue 1:30 PM)" />
+              <textarea id="meetingTopic" placeholder="What do you need help with?"></textarea>
+              <textarea id="notes" placeholder="Extra context (optional)"></textarea>
+            </div>
             <div class="coach-actions">
-              <button class="btn primary" id="analyze" type="button">
-                <span class="icon">✨</span> Analyze my day
-              </button>
-              <button class="btn" id="smartAnalyze" type="button">
-                <span class="icon">🧠</span> Smart Analysis (Free)
-              </button>
+              <button class="btn primary" id="requestMeeting" type="button">Submit meeting request</button>
+              <button class="btn" id="analyze" type="button">Generate prep plan</button>
             </div>
-
-            <pre id="analysis" class="analysis">No analysis yet.</pre>
+            <pre id="analysis" class="analysis">No prep plan yet.</pre>
           </section>
         </div>
-
-        <footer class="footer">
-          <div class="footer-left">
-            <span class="badge">Local dev</span>
-            <span class="muted">Tip: Hard refresh (Cmd+Shift+R) if styles look cached.</span>
-          </div>
-          <div class="footer-right muted">Built for students • calm productivity</div>
-        </footer>
       </section>
     </main>
 
     <script src="app.js"></script>
-
     <script>
-      // simple theme toggle (no dependencies)
-      const key = "drc_theme";
-      const btn = document.getElementById("themeToggle");
-      const icon = btn?.querySelector(".icon");
+      const key = 'oh_theme';
+      const btn = document.getElementById('themeToggle');
+      const icon = btn?.querySelector('.icon');
 
       function applyTheme(t) {
         document.documentElement.dataset.theme = t;
-        if (icon) icon.textContent = t === "dark" ? "☀️" : "🌙";
+        if (icon) icon.textContent = t === 'dark' ? '☀️' : '🌙';
         localStorage.setItem(key, t);
       }
 
-      const initial = localStorage.getItem(key) || "dark";
-      applyTheme(initial);
+      applyTheme(localStorage.getItem(key) || 'dark');
 
-      btn?.addEventListener("click", () => {
-        const now = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+      btn?.addEventListener('click', () => {
+        const now = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
         applyTheme(now);
-      });
-
-      // optional: local save buttons for nice UX
-      const goal = document.getElementById("goal");
-      const notes = document.getElementById("notes");
-      const saveGoal = document.getElementById("saveGoal");
-      const saveNotes = document.getElementById("saveNotes");
-
-      if (goal) goal.value = localStorage.getItem("drc_goal") || "";
-      if (notes) notes.value = localStorage.getItem("drc_notes") || "";
-
-      saveGoal?.addEventListener("click", () => {
-        localStorage.setItem("drc_goal", goal.value || "");
-      });
-      saveNotes?.addEventListener("click", () => {
-        localStorage.setItem("drc_notes", notes.value || "");
-      });
-
-      // Hide empty state if events appear
-      const eventsList = document.getElementById("eventsList");
-      const empty = document.getElementById("eventsEmpty");
-      const obs = new MutationObserver(() => {
-        const has = eventsList && eventsList.children.length > 0;
-        if (empty) empty.style.display = has ? "none" : "block";
-      });
-      if (eventsList) obs.observe(eventsList, { childList: true });
-
-      // Smart analysis button (front-end only, doesn't require API)
-      document.getElementById("smartAnalyze")?.addEventListener("click", () => {
-        const items = [...document.querySelectorAll("#eventsList li")].map(li => li.innerText);
-        const g = (document.getElementById("goal")?.value || "").trim();
-        const n = (document.getElementById("notes")?.value || "").trim();
-        const lines = [];
-
-        lines.push("Smart Analysis (Free)");
-        lines.push("-------------------");
-        if (g) lines.push("Goal: " + g);
-        if (n) lines.push("Notes: " + n);
-        lines.push("");
-
-        // simple heuristics
-        const text = items.join(" ").toLowerCase();
-        const meetings = (text.match(/meeting|sync|standup|1:1|office hours/g) || []).length;
-        const focus = (text.match(/focus|deep work|study|library|assignment|project/g) || []).length;
-        const exercise = (text.match(/gym|workout|run|walk|training|yoga/g) || []).length;
-
-        let score = 72;
-        if (focus >= 2) score += 10;
-        if (exercise >= 1) score += 8;
-        if (meetings >= 4) score -= 12;
-
-        score = Math.max(0, Math.min(100, score));
-        document.getElementById("scoreNum").textContent = score;
-
-        document.getElementById("deepWorkMini").textContent = focus ? focus + " blocks" : "0";
-        document.getElementById("meetingsMini").textContent = meetings ? meetings + " blocks" : "0";
-
-        lines.push(`Day score: ${score}/100`);
-        lines.push("");
-
-        if (focus === 0) lines.push("• Protect 1–2 focus blocks tomorrow (60–90 min each).");
-        else lines.push("• Keep your best focus window protected — don’t schedule meetings there.");
-
-        if (meetings >= 4) lines.push("• Meetings are heavy. Batch them into one window to reduce switching.");
-        if (exercise === 0) lines.push("• Add 20–30 min movement after your last class.");
-        if (!n) lines.push("• Add 1–2 note lines tomorrow (energy, distractions, wins). It improves coaching.");
-
-        lines.push("");
-        lines.push("Tomorrow plan:");
-        lines.push("• Morning: deep work block");
-        lines.push("• Midday: classes + admin batch");
-        lines.push("• Afternoon: study block");
-        lines.push("• Evening: movement + shutdown routine");
-
-        document.getElementById("analysis").textContent = lines.join("\n");
       });
     </script>
   </body>
